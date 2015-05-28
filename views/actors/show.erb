@@ -1,3 +1,15 @@
-<H1> will show the details for a given actor.
-  This page should contain a list of movies that the actor has starred in and what their role was.
-  Each movie should link to the details page for that movie. </h1>
+
+<table>
+  <thead>
+    <tr>
+      <td>Movie</td>
+      <td>Role</td>
+    </tr>
+    <% actor.each do |role| %>
+    <tr>
+          <td><a href="/movies/<%= role["id"] %>"><%= role["title"] %></a></td>
+          <td><%= role["character"] %></td>
+      <% end %>
+    </tr>
+  </thead>
+</table>

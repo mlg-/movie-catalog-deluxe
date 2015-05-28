@@ -43,5 +43,16 @@ get '/actors' do
 end
 
 get '/actors/:id' do
-  erb :'actors/show'
+  actor_param_id = [params["id"]]
+  actor_table = db_connection{ |conn| conn.exec(
+    "SELECT movies.title, cast_members.character, movies.id
+    FROM movies
+    JOIN cast_members ON movies.id = cast_members.movie_id
+    JOIN actors ON cast_members.actor_id = actors.id
+    WHERE actors.id = $1
+    ORDER BY title
+    LIMIT 20", actor_param_id
+    )};
+  actor = actor_table.to_a
+  erb :'actors/show', locals: { actor: actor, id: params[:id] }
 end
