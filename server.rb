@@ -28,7 +28,25 @@ get '/movies' do
 end
 
 get '/movies/:id' do
-  erb :'/movies/show'
+  movie_param_id = [params["id"]]
+  movie_table = db_connection{ |conn| conn.exec(
+    "SELECT movies.title AS movie_title,
+    genres.name AS genre,
+    studios.name AS studio,
+    cast_members.character AS role,
+    actors.name AS actor,
+    actors.id AS actor_id
+    FROM movies
+    JOIN genres ON genres.id = movies.genre_id
+    JOIN studios ON studios.id = movies.studio_id
+    RIGHT JOIN cast_members ON movies.id = cast_members.movie_id
+    RIGHT JOIN actors ON cast_members.actor_id = actors.id
+    WHERE movies.id = $1
+    ORDER BY cast_members.character
+    LIMIT 20", movie_param_id
+    )};
+  movie = movie_table.to_a
+  erb :'/movies/show', locals: { movie: movie, id: params[:id] }
 end
 
 get '/actors' do
@@ -45,7 +63,7 @@ end
 get '/actors/:id' do
   actor_param_id = [params["id"]]
   actor_table = db_connection{ |conn| conn.exec(
-    "SELECT movies.title, cast_members.character, movies.id
+    "SELECT movies.title, cast_members.character, movies.id, actors.name
     FROM movies
     JOIN cast_members ON movies.id = cast_members.movie_id
     JOIN actors ON cast_members.actor_id = actors.id

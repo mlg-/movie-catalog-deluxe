@@ -1,3 +1,17 @@
-<h1> will show the details for the movie. This page should contain information about the movie
-  (including genre and studio) as well as a list of all of the actors and their roles.
-  Each actor name is a link to the details page for that actor. </h1>
+<h1><%= movie[0]["movie_title"] %></h1>
+<h2><%= movie[0]["genre"] %> from <%= movie[0]["studio"] %></h2>
+
+<table>
+  <thead>
+    <tr>
+      <td>Starring</td>
+      <td>As</td>
+    </tr>
+  </thead>
+  <% movie.each do |role| %>
+  <tr>
+    <td><a href="/actors/<%= role["actor_id"] %>"><%= role["actor"] %></a></td>
+    <td><%= role["role"] %></td>
+  </tr>
+  <% end %>
+</table>
