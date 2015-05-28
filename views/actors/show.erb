@@ -5,11 +5,12 @@
       <td>Movie</td>
       <td>Role</td>
     </tr>
+  </thead>
     <% actor.each do |role| %>
     <tr>
-          <td><a href="/movies/<%= role["id"] %>"><%= role["title"] %></a></td>
-          <td><%= role["character"] %></td>
-      <% end %>
+      <td><a href="/movies/<%= role["id"] %>"><%= role["title"] %></a></td>
+      <td><%= role["character"] %></td>
+    <% end %>
     </tr>
   </thead>
 </table>
