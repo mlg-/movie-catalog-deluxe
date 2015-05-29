@@ -1,5 +1,17 @@
 <h1> Actors </h1>
+<p><a href="/movies"><-See All Movies</a> ||
+  <% if page == nil %>
+    <a href="/actors?page=2">Next Page of Actors -></a>
+  <% else %>
+    <a href="/actors?page=<%= page.to_i + 1 %>">Next Page of Actors -></a>
+  <% end %></p>
 
-<% actors.each do |actor| %>
-  <a href="/actors/<%= actor["id"] %>"><%= actor["name"] %></a><br>
-<% end %>
+<table>
+  <% actors.each do |actor| %>
+  <tr>
+    <td>
+      <a href="/actors/<%= actor["id"] %>"><%= actor["name"] %></a><br>
+    </td>
+  </tr>
+  <% end %>
+</table>

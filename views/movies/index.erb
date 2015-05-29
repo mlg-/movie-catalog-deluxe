@@ -1,4 +1,12 @@
 <h1>Movies</h1>
+<p><% if page == nil %>
+  <a href="/movies?page=2&order=<%= order %>">Next Page -></a>
+<% else %>
+  <a href="/movies?page=<%= page.to_i + 1 %>&order=<%= order %>">Next Page -></a>
+<% end %></p>
+<p>Sort By: <a href="/movies?order=rating">Rating</a>
+  or <a href="/movies?order=year">Year</a></p>
+
 <table>
   <thead>
     <tr>
@@ -11,7 +19,7 @@
   </thead>
   <tr>
     <% movies.each do |movie| %>
-      <td><a href="/movies/<%= movie["title"] %>"><%= movie["title"] %></td>
+      <td><a href="/movies/<%= movie["id"] %>"><%= movie["title"] %></td>
       <td><%= movie["year"] %></td>
       <td><%= movie["rating"] %></td>
       <td><%= movie["genre"] %></td>
